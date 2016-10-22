@@ -1,0 +1,71 @@
+print("Initializing...")
+local validSender = false
+valid = false
+tserved, vserved, dserved = 0
+
+print("Loading startup settings...")
+count = true 
+modemSide = "left" 
+Blacklist = true 
+
+print("Loading user database...")
+
+users = {}
+password = {}
+blacklist = {}
+
+user = "test:test;"
+
+for word in string.gmatch(user, '([^;]+)') do
+u, p = string:match("([^:]+),([^:]+)")
+    table.insert (user, u);
+	table.insert (password, p);
+end
+
+
+print("Loading core functions...")
+function clear()
+term.clear()
+term.setCursorPos(1, 1)
+print("SLS Server 1.0") 
+print("There is no user interaction here. Please contact your system administrator for assistance regarding the system.")
+print(tserved.." total requests received this session.")
+print(vserved.." requests completed this session.")
+print(dserved.." requests denied this session.")
+end
+
+print("Starting up...")
+rednet.open(modemSide) -- Opens the modem to wait for incoming login requests
+
+clear()
+
+while true do 
+ blockedSender = true
+ senderId, message, distance = rednet.receive()
+ for i,v in ipairs(blacklist) do
+  tserved = tserved + 1
+  if v == senderId then
+   blockedSender = false
+   rednet.send(senderId, "301", true) -- Send response code 301 - which means Not Whitelisted.
+   dserved = dserved + 1
+   clear()
+   break
+
+  end
+ end
+ if blockedSender then
+  for i,v in ipairs(users) do
+   if message == v then
+ password = passwords[i]
+ rednet.send(senderId, password, true)
+ vserved = vserved + 1
+ clear()
+ break
+   else
+ rednet.send(senderId, "300", true) -- Send response code 300 - which means Bad Auth.
+ dserved = dserved + 1
+ clear()
+   end
+  end
+ end
+end
