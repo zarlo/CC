@@ -1,0 +1,22 @@
+write( "Connecting to server... " )
+local response = http.get(
+        "https://raw.githubusercontent.com/zarlo/CC/master/nget"
+)
+        
+if response then
+        
+    local sResponse = response.readAll()
+    response.close()
+    local file = fs.open( "nget", "w" )
+    file.write( sResponse )
+    file.close()
+else
+    printError( "Failed." )
+    return
+end
+
+shell.run("nget", "core", "core")
+	
+	
+	
+os.reboot()
