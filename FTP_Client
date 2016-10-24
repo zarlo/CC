@@ -1,0 +1,38 @@
+
+rednet.open("left")
+filePath = {...} 
+serverID = 10 --change to ID of server
+id = os.getComputerID()
+function requestFile()
+  PING = false
+  term.setCursorPos(1,1)
+  term.clear()
+  textutils.slowPrint("establishing connection...")
+  rednet.send(serverID, "CONNECTION","PING")
+  id, message = rednet.receive("PING")
+  if message == "RECIEVED" then
+    textutils.slowPrint("Connected.....")
+    files = tostring(filePath[1])
+    rednet.send(serverID, files,"FTP")
+    id, message = rednet.receive("FTP")
+    if message == "FILE FOUND" then
+      textutils.slowPrint(files.." found downloading now")
+      rednet.send(serverID,"DOWNLOADRQST","DOWNRQST")
+      recieveFile()
+    end  
+  end
+end
+
+function recieveFile()
+  id, file = rednet.receive("Final")
+  print(file)
+  location = tostring(filePath[2])
+  newFile = fs.open(location, "w")
+  newFile.write(file)
+  print("recieved written to: "..location)
+  newFile.close()
+  sleep()
+end
+
+
+requestFile()

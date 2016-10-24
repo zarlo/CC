@@ -1,0 +1,27 @@
+rednet.open("left")
+function Request()
+  id, message = rednet.receive("PING")
+  print("waiting")
+  if message == "CONNECTION" then
+    textutils.slowPrint("connection established with "..id)
+    rednet.send(id, "RECIEVED","PING")
+    print("sending "..id.."message")
+    id, filepath = rednet.receive("FTP")
+    print(filepath)
+    if filepath ~= "CONNECTION" then
+      if fs.exists(filepath) then
+        print("found" ..filepath)
+        rednet.send(id,"FILE FOUND", "FTP")
+        id, message = rednet.receive("DOWNRQST")
+        if message == "DOWNLOADRQST" then
+          RQSTFILE = fs.open(filepath, "r")
+          SENDFILE = tostring(RQSTFILE.readAll())
+          rednet.send(id, SENDFILE, "Final")
+        end
+      end
+    end
+  end
+end
+while true do 
+  Request()
+end

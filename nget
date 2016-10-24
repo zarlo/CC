@@ -14,6 +14,8 @@ end
 if not http then
     printError( "nget requires http API" )
     printError( "Set http_enable to true in ComputerCraft.cfg" )
+	printError( "And how the hell did you get nget")
+	
     return
 end
  
