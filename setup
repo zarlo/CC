@@ -14,11 +14,14 @@ else
     return
 end
 
-shell.run("nget", "get", "update", "update")
-shell.run("nget", "run", "getAPI")
+write("getting nget programs")
 
+shell.run("nget", "get", "startup", "startup")
 
-shell.run("pastebin", "get", "w1RtfqFd", "apps/market")
+write("getting pastebin programs")
+
+shell.run("pastebin", "get", "w1RtfqFd", "apps/tsmarket")
+	
 	
 	
 os.reboot()
