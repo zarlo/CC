@@ -8,17 +8,11 @@ local firstCycle = true
 local validSender = false
 local modemSide = "left" -- change to the side of the computer your modem is on
 local valid = false
-users = {"username1", "username2" } --make sure users and passwords line up
-passwords = {"password1", "password2" }
-for word in string.gmatch(user, '([^;]+)') do
-u, p = string:match("([^:]+),([^:]+)")
-    table.insert (user, u);
-	table.insert (password, p);
-end
-senders = { 1, 2, 3, 4 } -- computer ID's of the computers you want to accept requests from
+
 function bootUp()
  rednet.open(modemSide)
 end
+
 while true do
  validSender = false
  if firstCycle then
@@ -26,24 +20,14 @@ while true do
   firstCycle = false
  end
  senderId, message, distance = rednet.receive()
- for i,v in ipairs(senders) do
-  if v == senderId then
-   validSender = true
-   break
-  end
- end
- if validSender then
-  for i,v in ipairs(users) do
-   if message == v then
-    valid = true
-    password = passwords[i]
-    break
-   else
-    valid = false
-   end
-  end
-  if valid then
+
+local response = http.get("https://?m=".. message).ReadAll()
+
+ if response == "true" then
    rednet.send(senderId, password, true)
+  
+  elseif response == "blocked"
+  
   else
    rednet.send(senderId, "Not Valid", true)
   end

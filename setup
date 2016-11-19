@@ -1,4 +1,9 @@
 write( "Connecting to server... " )
+
+shell.run("delete", "apps/")
+shell.run("delete", "nget")
+shell.run("delete", "startup")
+
 local response = http.get(
         "https://raw.githubusercontent.com/zarlo/CC/master/nget"
 )
@@ -13,15 +18,54 @@ else
     printError( "Failed." )
     return
 end
-
-write("getting nget programs")
+print("loading CORE")
+print("getting nget programs")
 
 shell.run("nget", "get", "startup", "startup")
 
-write("getting pastebin programs")
+print("getting pastebin programs")
 
 shell.run("pastebin", "get", "w1RtfqFd", "apps/tsmarket")
+
+print("settingup config")
+
+if os.getComputerLabel() == nil then
+
+    if turtle then
+		type = "T"
+	else
+		if pocket then
+			type = "P"
+		else
+			type = "C"
+		end
+	end
+	
+	if term.isColour() then
+		advance = "A"
+	else
+		advance = "S"
+	end
+	
+	os.setComputerLabel(advance..type..tostring(os.getComputerID())
+end	
+
+print("label set to" .. tostring(os.getComputerID())
+function User()
+if type == "T" then
+print("Loading Turtle")
+shell.run("apps/tsmarket", "get", "gjdi0w", "preload", "y")
+shell.run("preload")
+else
+	
+	print("Loading Computer")
+	
+	if advance == "S" then
 	
 	
+	else
 	
+	end
+end
+end
 os.reboot()

@@ -1,0 +1,6 @@
+if term.isColour() then
+	shell.run("bg" , "GPS", "host")
+	shell.run("fg" , "login.lua")
+else
+	shell.run("login.lua")
+end
