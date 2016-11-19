@@ -27,9 +27,7 @@ print("getting pastebin programs")
 
 shell.run("pastebin", "get", "w1RtfqFd", "apps/tsmarket")
 
-print("settingup config")
-
-if os.getComputerLabel() == nil then
+print("setting up config")
 
     if turtle then
 		type = "T"
@@ -46,9 +44,6 @@ if os.getComputerLabel() == nil then
 	else
 		advance = "S"
 	end
-	
-
-end	
 
 
 function User()
@@ -68,4 +63,7 @@ else
 	end
 end
 end
+
+settings.set(shell.allow_disk_startup, false)
+settings.save(".settings")
 os.reboot()
