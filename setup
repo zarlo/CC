@@ -27,7 +27,7 @@ print("getting pastebin programs")
 
 shell.run("pastebin", "get", "w1RtfqFd", "apps/tsmarket")
 
-print("settingup config")
+print("setting up config")
 
 if os.getComputerLabel() == nil then
 
@@ -47,7 +47,7 @@ if os.getComputerLabel() == nil then
 		advance = "S"
 	end
 	
-	os.setComputerLabel(advance..type..tostring(os.getComputerID())
+	os.setComputerLabel( advance .. type .. tostring(os.getComputerID())
 end	
 
 print("label set to" .. tostring(os.getComputerID())
