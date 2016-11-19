@@ -76,7 +76,7 @@ function harvesting()
   harvest(wheat)
 end
 function on_end_harvesting()
-  for ii = 1, 4 do
+  for ii = 1, 4, 1 do
     local _,m = turtle.inspect()
     if m.name:find(chest_name_part) == nil then return end
     for i = 1, #harvest_slots do
