@@ -8,7 +8,7 @@ local response = http.get(
         "https://raw.githubusercontent.com/zarlo/CC/master/nget"
 )
         
-if response then       
+if response then
     local sResponse = response.readAll()
     response.close()
     local file = fs.open( "nget", "w" )
@@ -25,32 +25,29 @@ shell.run("nget", "get", "startup", "startup")
 
 print("getting pastebin programs")
 
-shell.run("pastebin", "get", "w1RtfqFd", "apps/tsmarket")
+--shell.run("pastebin", "get", "w1RtfqFd", "apps/tsmarket")
 
 print("setting up config")
 
-    if turtle then
-		type = "T"
+if turtle then
+    type = "T"
+else
+	if pocket then
+		type = "P"
 	else
-		if pocket then
-			type = "P"
-		else
-			type = "C"
-		end
+		type = "C"
 	end
-	
-	if term.isColour() then
-		advance = "A"
-	else
-		advance = "S"
-	end
+end	
+if term.isColour() then
+	advance = "A"
+else
+	advance = "S"
+end
 
-
-function User()
 if type == "T" then
-print("Loading Turtle")
-shell.run("apps/tsmarket", "get", "gjdi0w", "preload", "y")
-shell.run("preload")
+    print("Loading Turtle")
+    shell.run("apps/tsmarket", "get", "gjdi0w", "preload", "y")
+    shell.run("preload")
 else
 	
 	print("Loading Computer")
@@ -62,8 +59,12 @@ else
 	
 	end
 end
-end
 
-settings.set(shell.allow_disk_startup, false)
-settings.save(".settings")
+--settings.set(shell.allow_disk_startup, false)
+--settings.save(".settings")
+
+    local file = fs.open( "data", "w" )
+    file.write( type..":"..advance )
+    file.close()
+
 os.reboot()

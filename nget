@@ -10,6 +10,12 @@ if #tArgs < 2 then
     printUsage()
     return
 end
+
+if #tArgs == 0 then
+    printUsage()
+    return
+end
+
  
 if not http then
     printError( "nget requires http API" )
@@ -76,6 +82,28 @@ elseif sCommand == "run" then
             printError( msg )
         end
     end
+elseif sCommand == "pack" then    
+    
+    local sCode = tArgs[2] .. ".pack"
+ 
+    local res = get(sCode)
+    if res then
+        local func, err = load(res, sCode, "t", _ENV)
+        if not func then
+            printError( err )
+            return
+        end
+        local success, msg = pcall(func, table.unpack(tArgs, 3))
+        if not success then
+            printError( msg )
+        end
+        
+        for key,value in pairs(Files) do 
+            shell.run("nget", "get", key, value)
+        end
+        
+    end    
+    
 else
     printUsage()
     return

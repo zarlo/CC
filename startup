@@ -1,6 +1,20 @@
+os.loadApi("lib/commom")
 
-os.loadApi("tst")
+os.loadApi("Turtle/tst")
 
+
+local tngetOptions = { "get ", "run ", "pack " }
+local function completenget( shell, nIndex, sText, tPreviousText )
+    if nIndex == 1 then
+        return completeMultipleChoice( sText, tngetOptions )
+    elseif nIndex == 2 then
+        if tPreviousText[2] == "put" then
+            
+        end
+    end
+end
+
+shell.setCompletionFunction( "nget", completenget )
 
 --run user auto run
 if fs.exists( "/autorun" ) and fs.isDir( "/autorun" ) then
