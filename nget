@@ -44,7 +44,8 @@ local function get(paste)
     printError( "Failed." )
 end
 
-local repositories = Split(io.open("repositories.list"),"|")
+local temp = io.open("repositories.list",r)
+local repositories = Split(temp,"|")
 
 
 local sCommand = tArgs[1]
