@@ -45,7 +45,7 @@ local function get(paste)
 end
 
 local temp = io.open("repositories.list",r)
-local repositories = Split(temp,"|")
+local repositories = split(temp,"|")
 
 
 local sCommand = tArgs[1]
