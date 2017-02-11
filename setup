@@ -7,7 +7,7 @@ shell.run("delete", "startup")
 local response = http.get(
         "https://raw.githubusercontent.com/zarlo/CC/master/nget"
 )
-        
+
 if response then
     local sResponse = response.readAll()
     response.close()
@@ -18,6 +18,22 @@ else
     printError( "Failed." )
     return
 end
+
+local response = http.get(
+        "https://raw.githubusercontent.com/zarlo/CC/master/repositories.list"
+)
+
+if response then
+    local sResponse = response.readAll()
+    response.close()
+    local file = fs.open( "repositories.list", "w" )
+    file.write( sResponse )
+    file.close()
+else
+    printError( "Failed." )
+    return
+end
+
 print("loading CORE")
 print("getting nget programs")
 
@@ -37,7 +53,7 @@ else
 	else
 		type = "C"
 	end
-end	
+end
 if term.isColour() then
 	advance = "A"
 else
@@ -49,14 +65,14 @@ if type == "T" then
     shell.run("apps/tsmarket", "get", "gjdi0w", "preload", "y")
     shell.run("preload")
 else
-	
+
 	print("Loading Computer")
 	shell.run("apps/tsmarket", "get", "gjdi84", "apps/pearl", "y")
 	if advance == "A" then
-	
-	
+
+
 	else
-	
+
 	end
 end
 
