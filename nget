@@ -5,7 +5,7 @@ local function printUsage()
     print( "nget run <code> <arguments>" )
     print( "nget install <code> " )
 end
- 
+
 local tArgs = { ... }
 if #tArgs < 2 then
     printUsage()
@@ -17,32 +17,36 @@ if #tArgs == 0 then
     return
 end
 
- 
+
 if not http then
     printError( "nget requires http API" )
     printError( "Set http_enable to true in ComputerCraft.cfg" )
 	printError( "And how the hell did you get nget")
-	
+
     return
 end
- 
+
 local function get(paste)
     write( "Connecting to server... " )
-    local response = http.get(
-        "https://raw.githubusercontent.com/zarlo/CC/master/"..textutils.urlEncode( paste )
-    )
-        
-    if response then
-        print( "Success." )
-        
-        local sResponse = response.readAll()
-        response.close()
-        return sResponse
-    else
-        printError( "Failed." )
+    local t = 0;
+    while(t < #repositories)
+    do
+        local response = http.get(repositories[t]..textutils.urlEncode( paste ))
+
+        if response then
+          print( "Success." )
+
+          local sResponse = response.readAll()
+          response.close()
+          return sResponse
+        end
     end
+    printError( "Failed." )
 end
- 
+
+local repositories = Split(io.open("repositories.list"),"|")
+
+
 local sCommand = tArgs[1]
 if sCommand == "get" then
 
@@ -50,7 +54,7 @@ if sCommand == "get" then
         printUsage()
         return
     end
- 
+
     -- Determine file to download
     local sCode = tArgs[2]
     local sFile = tArgs[3]
@@ -61,16 +65,16 @@ if sCommand == "get" then
     end
 
     local res = get(sCode)
-    if res then        
+    if res then
         local file = fs.open( sPath, "w" )
         file.write( res )
         file.close()
-        
+
         print( "Downloaded as "..sFile )
-    end 
+    end
 elseif sCommand == "run" then
     local sCode = tArgs[2]
- 
+
     local res = get(sCode)
     if res then
         local func, err = load(res, sCode, "t", _ENV)
@@ -83,10 +87,10 @@ elseif sCommand == "run" then
             printError( msg )
         end
     end
-elseif sCommand == "install" then    
-    
+elseif sCommand == "install" then
+
     local sCode = tArgs[2] .. ".pack"
- 
+
     local res = get(sCode)
     if res then
         local func, err = load(res, sCode, "t", _ENV)
@@ -98,10 +102,10 @@ elseif sCommand == "install" then
         if not success then
             printError( msg )
         end
-        
-        
-    end    
-    
+
+
+    end
+
 else
     printUsage()
     return
