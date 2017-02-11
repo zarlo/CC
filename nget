@@ -3,6 +3,7 @@ local function printUsage()
     print( "Usages:" )
     print( "nget get <code> <filename>" )
     print( "nget run <code> <arguments>" )
+    print( "nget install <code> " )
 end
  
 local tArgs = { ... }
@@ -82,7 +83,7 @@ elseif sCommand == "run" then
             printError( msg )
         end
     end
-elseif sCommand == "pack" then    
+elseif sCommand == "install" then    
     
     local sCode = tArgs[2] .. ".pack"
  
@@ -98,9 +99,6 @@ elseif sCommand == "pack" then
             printError( msg )
         end
         
-        for key,value in pairs(Files) do 
-            shell.run("nget", "get", key, value)
-        end
         
     end    
     

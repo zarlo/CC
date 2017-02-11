@@ -74,7 +74,7 @@ function back() -- go back
    xPos = xPos + 1
   elseif face == 2 then
    zPos = zPos - 1
-  elseif face == 2 then
+  elseif face == 3 then
    xPos = xPos - 1
   end
  else

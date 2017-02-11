@@ -25,7 +25,7 @@ shell.run("nget", "get", "startup", "startup")
 
 print("getting pastebin programs")
 
---shell.run("pastebin", "get", "w1RtfqFd", "apps/tsmarket")
+shell.run("pastebin", "get", "w1RtfqFd", "apps/tsmarket")
 
 print("setting up config")
 
@@ -51,8 +51,8 @@ if type == "T" then
 else
 	
 	print("Loading Computer")
-	
-	if advance == "S" then
+	shell.run("apps/tsmarket", "get", "gjdi84", "apps/pearl", "y")
+	if advance == "A" then
 	
 	
 	else
