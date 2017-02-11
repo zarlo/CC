@@ -44,7 +44,7 @@ local function get(paste)
     printError( "Failed." )
 end
 
-local temp = io.open("repositories.list",r)
+local temp = io.open("repositories.list", "r")
 local repositories = split(temp,"|")
 
 
