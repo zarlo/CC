@@ -23,6 +23,7 @@ if #tArgs < 2 then
 end
 
 local temp = io.open("repositories.list", "r")
+print(temp)
 local repositories = split(temp,"|")
 
 
