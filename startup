@@ -9,7 +9,7 @@ local function completenget( shell, nIndex, sText, tPreviousText )
         return completeMultipleChoice( sText, tngetOptions )
     elseif nIndex == 2 then
         if tPreviousText[2] == "put" then
-            
+
         end
     end
 end
@@ -17,12 +17,12 @@ end
 shell.setCompletionFunction( "nget", completenget )
 
 --run user auto run
-if fs.exists( "/autorun" ) and fs.isDir( "/autorun" ) then
-	local tFiles = fs.list( "/autorun" )
+if fs.exists( "/exec" ) and fs.isDir( "/exec" ) then
+	local tFiles = fs.list( "/exec" )
 	table.sort( tFiles )
 	for n, sFile in ipairs( tFiles ) do
 		if string.sub( sFile, 1, 1 ) ~= "." then
-			local sPath = "/autorun/"..sFile
+			local sPath = "/exec/"..sFile
 			if not fs.isDir( sPath ) then
 				shell.run( sPath )
 			end

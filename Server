@@ -21,13 +21,13 @@ while true do
  end
  senderId, message, distance = rednet.receive()
 
-local response = http.get("https://?m=".. message).ReadAll()
+local response = http.get("https://zarlo.xyz/Services/CC?m=" .. message).ReadAll()
 
  if response == "true" then
    rednet.send(senderId, password, true)
-  
+
   elseif response == "blocked"
-  
+
   else
    rednet.send(senderId, "Not Valid", true)
   end
