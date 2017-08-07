@@ -1,39 +1,42 @@
+if not http then
+
+    printError( "nget requires http API" )
+    printError( "Set http_enable to true in ComputerCraft.cfg" )
+	  printError( "And how the hell did you get nget")
+
+    return
+end
 
 local function printUsage()
     print( "Usages:" )
     print( "nget get <code> <filename>" )
     print( "nget run <code> <arguments>" )
-    print( "nget install <code> " )
+	print( "nget install <code> " )
+	print( "nget repos add <URL>")
 end
 
 local tArgs = { ... }
+
 if #tArgs < 2 then
     printUsage()
     return
 end
 
-if #tArgs == 0 then
-    printUsage()
-    return
-end
+local temp = io.open("repositories.list", "r")
+local repositories = split(temp,"|")
 
-
-if not http then
-    printError( "nget requires http API" )
-    printError( "Set http_enable to true in ComputerCraft.cfg" )
-	printError( "And how the hell did you get nget")
-
-    return
-end
 
 local function get(paste)
+
     write( "Connecting to server... " )
     local t = 0;
     while(t < #repositories)
     do
-        local response = http.get(repositories[t]..textutils.urlEncode( paste ))
 
-        if response then
+	local response = http.get(repositories[t]..textutils.urlEncode( paste ))
+
+
+    	if response then
           print( "Success." )
 
           local sResponse = response.readAll()
@@ -44,11 +47,8 @@ local function get(paste)
     printError( "Failed." )
 end
 
-local temp = io.open("repositories.list", "r")
-local repositories = split(temp,"|")
-
-
 local sCommand = tArgs[1]
+
 if sCommand == "get" then
 
     if #tArgs < 3 then
@@ -73,21 +73,7 @@ if sCommand == "get" then
 
         print( "Downloaded as "..sFile )
     end
-elseif sCommand == "run" then
-    local sCode = tArgs[2]
 
-    local res = get(sCode)
-    if res then
-        local func, err = load(res, sCode, "t", _ENV)
-        if not func then
-            printError( err )
-            return
-        end
-        local success, msg = pcall(func, table.unpack(tArgs, 3))
-        if not success then
-            printError( msg )
-        end
-    end
 elseif sCommand == "install" then
 
     local sCode = tArgs[2] .. ".pack"
@@ -104,10 +90,23 @@ elseif sCommand == "install" then
             printError( msg )
         end
 
-
     end
 
+elseif sCommand == "repos" then
+
+    local sCommand1 = tArgs[2]
+
+    if sCommand1 == "add" then
+
+	    local file = fs.open( "repositories.list", "w" )
+        file.write( temp .. "|" .. tArgs[3] )
+        file.close()
+
+	end
+
 else
+
     printUsage()
     return
+
 end
